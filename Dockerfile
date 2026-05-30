@@ -23,6 +23,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Generate cache
 RUN php artisan config:clear || true
+RUN php artisan cache:clear || true
 RUN php artisan route:clear || true
 
 # Expose Render port
