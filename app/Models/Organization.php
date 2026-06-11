@@ -8,6 +8,8 @@ class Organization extends Model
 {
     //
 
+    protected $fillable = ['name', 'status' ];
+
 
     public function users()
     {

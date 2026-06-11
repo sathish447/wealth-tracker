@@ -13,6 +13,8 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
+use App\Models\Organization;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -37,7 +39,8 @@ class RegisteredUserController extends Controller
         ]);
 
         $organization = Organization::create([
-            'name' => $request->name . "'s Family"
+            'name' => $request->name . "'s Family",
+            'status' => true
         ]);
 
         $user = User::create([
