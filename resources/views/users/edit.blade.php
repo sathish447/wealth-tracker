@@ -1,105 +1,91 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">
-                Edit Family Member
-            </h2>
+@extends('adminlte::page')
+
+@section('title', 'Edit Member')
+
+@section('content_header') <h1>Edit Family Member</h1>
+@stop
+
+@section('content')
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Update Member</h3>
+    </div>
 
 ```
-        <a href="{{ route('users.index') }}"
-           class="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700">
-            Back
-        </a>
-    </div>
-</x-slot>
+<form action="{{ route('users.update', $user->id) }}" method="POST">
 
-<div class="py-6">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+    @csrf
+    @method('PUT')
 
-        <div class="p-6 bg-white rounded-lg shadow">
+    <div class="card-body">
 
-            <form action="{{ route('users.update', $user->id) }}"
-                  method="POST">
+        <div class="mb-3 form-group">
+            <label>Name</label>
 
-                @csrf
-                @method('PUT')
+            <input type="text"
+                   name="name"
+                   class="form-control @error('name') is-invalid @enderror"
+                   value="{{ old('name', $user->name) }}">
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-medium text-gray-700">
-                        Name
-                    </label>
+            @error('name')
+                <span class="invalid-feedback">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
 
-                    <input type="text"
-                           name="name"
-                           value="{{ old('name', $user->name) }}"
-                           class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-200">
+        <div class="mb-3 form-group">
+            <label>Email</label>
 
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-500">
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
+            <input type="email"
+                   name="email"
+                   class="form-control @error('email') is-invalid @enderror"
+                   value="{{ old('email', $user->email) }}">
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-medium text-gray-700">
-                        Email
-                    </label>
+            @error('email')
+                <span class="invalid-feedback">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
 
-                    <input type="email"
-                           name="email"
-                           value="{{ old('email', $user->email) }}"
-                           class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-200">
+        <div class="mb-3 form-group">
+            <label>Role</label>
 
-                    @error('email')
-                        <p class="mt-1 text-sm text-red-500">
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
+            <input type="text"
+                   class="form-control"
+                   value="{{ ucfirst($user->role) }}"
+                   readonly>
+        </div>
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-medium text-gray-700">
-                        Role
-                    </label>
+        <div class="mb-3 form-group">
+            <label>Status</label>
 
-                    <input type="text"
-                           value="{{ ucfirst($user->role) }}"
-                           readonly
-                           class="w-full px-3 py-2 bg-gray-100 border rounded">
-                </div>
-
-                <div class="mb-6">
-                    <label class="block mb-2 font-medium text-gray-700">
-                        Status
-                    </label>
-
-                    <input type="text"
-                           value="{{ $user->is_active ? 'Active' : 'Disabled' }}"
-                           readonly
-                           class="w-full px-3 py-2 bg-gray-100 border rounded">
-                </div>
-
-                <div class="flex gap-3">
-
-                    <button type="submit"
-                            class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                        Update Member
-                    </button>
-
-                    <a href="{{ route('users.index') }}"
-                       class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600">
-                        Cancel
-                    </a>
-
-                </div>
-
-            </form>
-
+            <input type="text"
+                   class="form-control"
+                   value="{{ $user->is_active ? 'Active' : 'Disabled' }}"
+                   readonly>
         </div>
 
     </div>
-</div>
+
+    <div class="card-footer">
+
+        <button type="submit" class="btn btn-success">
+            Update Member
+        </button>
+
+        <a href="{{ route('users.index') }}"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </div>
+
+</form>
 ```
 
-</x-app-layout>
+</div>
+
+@stop

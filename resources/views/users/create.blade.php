@@ -1,109 +1,93 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800">
-            Add Family Member
-        </h2>
-    </x-slot>
+@extends('adminlte::page')
 
-    <div class="py-6">
-        <div class="max-w-3xl mx-auto">
+@section('title', 'Add Member')
 
-            <div class="p-6 bg-white rounded-lg shadow">
+@section('content_header') <h1>Add Family Member</h1>
+@stop
 
-                <form action="{{ route('users.store') }}" method="POST">
+@section('content')
 
-                    @csrf
-
-                    <div class="mb-4">
-                        <label class="block mb-2 font-medium">
-                            Name
-                        </label>
-
-                        <input
-                            type="text"
-                            name="name"
-                            value="{{ old('name') }}"
-                            class="w-full px-3 py-2 border rounded"
-                        >
-
-                        @error('name')
-                            <p class="text-sm text-red-500">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block mb-2 font-medium">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            class="w-full px-3 py-2 border rounded"
-                        >
-
-                        @error('email')
-                            <p class="text-sm text-red-500">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block mb-2 font-medium">
-                            Password
-                        </label>
-
-                        <input
-                            type="password"
-                            name="password"
-                            class="w-full px-3 py-2 border rounded"
-                        >
-
-                        @error('password')
-                            <p class="text-sm text-red-500">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block mb-2 font-medium">
-                            Confirm Password
-                        </label>
-
-                        <input
-                            type="password"
-                            name="password_confirmation"
-                            class="w-full px-3 py-2 border rounded"
-                        >
-                    </div>
-
-                    <div class="flex gap-3">
-
-                        <button
-                            type="submit"
-                            class="px-4 py-2 text-white bg-blue-600 rounded"
-                        >
-                            Save Member
-                        </button>
-
-                        <a
-                            href="{{ route('users.index') }}"
-                            class="px-4 py-2 text-white bg-gray-500 rounded"
-                        >
-                            Cancel
-                        </a>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Create Member</h3>
     </div>
-</x-app-layout>
+
+```
+<form action="{{ route('users.store') }}" method="POST">
+    @csrf
+
+    <div class="card-body">
+
+        <div class="mb-3 form-group">
+            <label>Name</label>
+
+            <input type="text"
+                   name="name"
+                   class="form-control @error('name') is-invalid @enderror"
+                   value="{{ old('name') }}"
+                   placeholder="Enter Name">
+
+            @error('name')
+                <span class="invalid-feedback">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+
+        <div class="mb-3 form-group">
+            <label>Email</label>
+
+            <input type="email"
+                   name="email"
+                   class="form-control @error('email') is-invalid @enderror"
+                   value="{{ old('email') }}"
+                   placeholder="Enter Email">
+
+            @error('email')
+                <span class="invalid-feedback">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+
+        <div class="mb-3 form-group">
+            <label>Password</label>
+
+            <input type="password"
+                   name="password"
+                   class="form-control @error('password') is-invalid @enderror">
+
+            @error('password')
+                <span class="invalid-feedback">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+
+        <div class="mb-3 form-group">
+            <label>Confirm Password</label>
+
+            <input type="password"
+                   name="password_confirmation"
+                   class="form-control">
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">
+            Save Member
+        </button>
+
+        <a href="{{ route('users.index') }}"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+    </div>
+
+</form>
+```
+
+</div>
+
+@stop
