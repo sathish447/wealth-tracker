@@ -315,18 +315,39 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
+
+          [
+        'text' => 'Dashboard',
+        'url'  => '/dashboard',
+        'icon' => 'fas fa-fw fa-home',
+    ],
+
+    [
+        'header' => 'Family Management',
+    ],
+
+    [
+        'text' => 'Members',
+        'url'  => '/users',
+        'icon' => 'fas fa-users',
+    ],
+
+    [
+        'header' => 'Finance',
+    ],
+
+    [
+        'text' => 'Accounts',
+        'url'  => '/accounts',
+        'icon' => 'fas fa-wallet',
+    ],
+
+    [
+        'text' => 'Transactions',
+        'url'  => '/transactions',
+        'icon' => 'fas fa-money-bill',
+    ],
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
@@ -375,22 +396,6 @@ return [
                     'url' => '#',
                 ],
             ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
         ],
     ],
 
