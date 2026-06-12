@@ -2,102 +2,93 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\User;
+use App\Services\UserService;
+use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        private UserService $userService
+    ) {}
+
     public function index()
     {
-        $users = User::where(
-            'organization_id',
-            auth()->user()->organization_id
-        )->get();
+        $users = $this->userService
+            ->getOrganizationUsers(
+                auth()->user()->organization_id
+            );
 
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8'
-        ]);
+        $this->userService->create(
+            $request->validated(),
+            auth()->user()->organization_id
+        );
 
-
-        User::create([
-            'organization_id' => auth()->user()->organization_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'member',
-            'is_active' => true
-        ]);
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Member created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(User $user)
     {
-        //
+        $this->authorizeUser($user);
+
+        return view('users.edit', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(
+        UpdateUserRequest $request,
+        User $user
+    ) {
+        $this->authorizeUser($user);
+
+        $this->userService->update(
+            $user,
+            $request->validated()
+        );
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Member updated successfully.');
+    }
+
+    public function destroy(User $user)
     {
-        //
+        $this->authorizeUser($user);
+
+        $this->userService->delete($user);
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Member deleted successfully.');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email
-        ]);
-
-        return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $user->delete();
-
-        return back();
-    }
-
 
     public function toggleStatus(User $user)
     {
-        $user->update([
-            'is_active' => !$user->is_active
-        ]);
+        $this->authorizeUser($user);
 
-        return back();
+        $this->userService->toggleStatus($user);
+
+        return back()
+            ->with('success', 'Status updated.');
     }
 
+    private function authorizeUser(User $user): void
+    {
+        abort_if(
+            $user->organization_id !== auth()->user()->organization_id,
+            403
+        );
+    }
 }

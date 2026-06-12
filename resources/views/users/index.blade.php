@@ -1,132 +1,143 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold text-gray-800">
                 Family Members
             </h2>
 
             <a href="{{ route('users.create') }}"
-               class="bg-blue-600 text-white px-4 py-2 rounded">
+               class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                 Add Member
             </a>
         </div>
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             @if(session('success'))
-                <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
+                <div class="p-3 mb-4 text-green-700 bg-green-100 rounded">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="bg-white rounded-lg shadow">
 
-                <table class="min-w-full border-collapse">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-4 py-3 text-left">Name</th>
-                            <th class="px-4 py-3 text-left">Email</th>
-                            <th class="px-4 py-3 text-left">Role</th>
-                            <th class="px-4 py-3 text-left">Status</th>
-                            <th class="px-4 py-3 text-center">Actions</th>
-                        </tr>
-                    </thead>
+                <div class="overflow-x-auto">
 
-                    <tbody>
-                        @forelse($users as $user)
-                            <tr class="border-t">
+                    <table class="min-w-full divide-y divide-gray-200">
 
-                                <td class="px-4 py-3">
-                                    {{ $user->name }}
-                                </td>
-
-                                <td class="px-4 py-3">
-                                    {{ $user->email }}
-                                </td>
-
-                                <td class="px-4 py-3">
-                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">
-                                        {{ ucfirst($user->role) }}
-                                    </span>
-                                </td>
-
-                                <td class="px-4 py-3">
-
-                                    @if($user->is_active)
-                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded">
-                                            Active
-                                        </span>
-                                    @else
-                                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded">
-                                            Disabled
-                                        </span>
-                                    @endif
-
-                                </td>
-
-                                <td class="px-4 py-3">
-
-                                    <div class="flex gap-2 justify-center">
-
-                                        <a href="{{ route('users.edit', $user->id) }}"
-                                           class="bg-yellow-500 text-white px-3 py-1 rounded">
-                                            Edit
-                                        </a>
-
-                                        @if(auth()->id() != $user->id)
-
-                                            <form action="{{ route('users.toggle-status', $user->id) }}"
-                                                  method="POST">
-                                                @csrf
-
-                                                <button
-                                                    class="px-3 py-1 rounded text-white
-                                                    {{ $user->is_active
-                                                        ? 'bg-red-500'
-                                                        : 'bg-green-500' }}">
-                                                    {{ $user->is_active
-                                                        ? 'Disable'
-                                                        : 'Enable' }}
-                                                </button>
-
-                                            </form>
-
-                                            <form action="{{ route('users.destroy', $user->id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Delete this member?')">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button
-                                                    class="bg-gray-700 text-white px-3 py-1 rounded">
-                                                    Delete
-                                                </button>
-
-                                            </form>
-
-                                        @endif
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-                        @empty
-
+                        <thead class="bg-gray-100">
                             <tr>
-                                <td colspan="5"
-                                    class="text-center py-5 text-gray-500">
-                                    No Members Found
-                                </td>
+                                <th class="px-4 py-3 text-left">Name</th>
+                                <th class="px-4 py-3 text-left">Email</th>
+                                <th class="px-4 py-3 text-left">Role</th>
+                                <th class="px-4 py-3 text-left">Status</th>
+                                <th class="px-4 py-3 text-center w-72">
+                                    Actions
+                                </th>
                             </tr>
+                        </thead>
 
-                        @endforelse
+                        <tbody class="bg-white divide-y divide-gray-200">
 
-                    </tbody>
-                </table>
+                            @forelse($users as $user)
+
+                                <tr>
+
+                                    <td class="px-4 py-3">
+                                        {{ $user->name }}
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        {{ $user->email }}
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <span class="px-2 py-1 text-sm text-blue-700 bg-blue-100 rounded">
+                                            {{ ucfirst($user->role) }}
+                                        </span>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        @if($user->is_active)
+                                            <span class="px-2 py-1 text-sm text-green-700 bg-green-100 rounded">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span class="px-2 py-1 text-sm text-red-700 bg-red-100 rounded">
+                                                Disabled
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td class="px-4 py-3">
+
+                                        <div class="flex flex-wrap justify-center gap-2">
+
+                                            <a href="{{ route('users.edit', $user->id) }}"
+                                               class="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                                                Edit
+                                            </a>
+
+                                            @if(auth()->id() != $user->id)
+
+                                                <form action="{{ route('users.toggle-status', $user->id) }}"
+                                                      method="POST">
+                                                    @csrf
+
+                                                    <button
+                                                        type="submit"
+                                                        class="px-3 py-1 text-white rounded
+                                                        {{ $user->is_active
+                                                            ? 'bg-red-500 hover:bg-red-600'
+                                                            : 'bg-green-500 hover:bg-green-600' }}">
+                                                        {{ $user->is_active
+                                                            ? 'Disable'
+                                                            : 'Enable' }}
+                                                    </button>
+
+                                                </form>
+
+                                                <form action="{{ route('users.destroy', $user->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirm('Delete this member?')">
+
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button
+                                                        type="submit"
+                                                        class="px-3 py-1 text-white bg-gray-700 rounded hover:bg-gray-800">
+                                                        Delete
+                                                    </button>
+
+                                                </form>
+
+                                            @endif
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="5"
+                                        class="py-6 text-center text-gray-500">
+                                        No Members Found
+                                    </td>
+                                </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 
