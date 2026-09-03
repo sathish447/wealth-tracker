@@ -15,10 +15,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->userService
-            ->getOrganizationUsers(
-                auth()->user()->organization_id
-            );
+        $users = $this->userService->getMembersUsers();
 
         return view('users.index', compact('users'));
     }
@@ -91,4 +88,18 @@ class UserController extends Controller
             403
         );
     }
+
+
+    public function organization()
+    {
+        $users = $this->userService
+            ->getOrganizationUsers(
+                auth()->user()->organization_id
+            );
+
+        return view('users.index', compact('users'));
+    }
+
+
+
 }

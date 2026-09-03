@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function getOrganizationUsers(int $organizationId)
+    public function getOrganizationUsers()
     {
-        return User::where('organization_id', $organizationId)
+        return User::where('role', 'owner')
+            ->latest()
+            ->get();
+    }
+
+    public function getMembersUsers()
+    {
+        return User::where('role', 'member')
             ->latest()
             ->get();
     }

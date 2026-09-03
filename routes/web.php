@@ -23,6 +23,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
+  Route::get('/organizations',
+        [UserController::class, 'organization'])
+        ->name('organization.list');
+
     Route::resource('users', UserController::class);
     Route::post('/users/{user}/toggle-status',
         [UserController::class, 'toggleStatus'])

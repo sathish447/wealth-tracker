@@ -323,7 +323,13 @@ return [
     ],
 
     [
-        'header' => 'Family Management',
+        'header' => 'Organization Managment',
+    ],
+
+    [
+        'text' => 'Organizations',
+        'url'  => '/organizations',
+        'icon' => 'fas fa-users',
     ],
 
     [
