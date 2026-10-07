@@ -12,11 +12,9 @@ use App\Http\Requests\UpdateAccountRequest;
 
 class AccountController extends Controller
 {
-
     public function __construct(
         private AccountService $accountService
     ) {}
-
 
     /**
      * Display a listing of the resource.

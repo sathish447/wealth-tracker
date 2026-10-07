@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\InvestmentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +45,18 @@ Route::middleware(['auth'])->group(function () {
     )->name('accounts.toggle-status');
 
     Route::resource('accounts', AccountController::class);
+
+});
+
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::post(
+        'investments/{investment}/toggle-status',
+        [InvestmentController::class, 'toggleStatus']
+    )->name('investments.toggle-status');
+
+    Route::resource('investments', InvestmentController::class);
 
 });
 

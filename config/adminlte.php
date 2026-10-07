@@ -349,6 +349,12 @@ return [
     ],
 
     [
+        'text' => 'Investments',
+        'url'  => '/investments',
+        'icon' => 'fas fa-coins',
+    ],
+
+    [
         'text' => 'Transactions',
         'url'  => '/transactions',
         'icon' => 'fas fa-money-bill',
